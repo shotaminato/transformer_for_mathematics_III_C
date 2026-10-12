@@ -31,6 +31,7 @@ function App() {
           <span>Transformerをほどく</span>
         </a>
         <nav aria-label="メインナビゲーション">
+          <a href="#inside">中身</a>
           <a href="#foundation">数学の準備</a>
           <a href="#attention">Attention</a>
           <a href="#architecture">全体像</a>
@@ -53,8 +54,8 @@ function App() {
               高校数学を足場に、言葉が「わかる」までを一歩ずつ追いかけます。
             </p>
             <div className="hero-actions">
-              <a className="button primary" href="#foundation">学びはじめる <span>↓</span></a>
-              <span className="reading-time">全7章・約20分</span>
+              <a className="button primary" href="#inside">学びはじめる <span>↓</span></a>
+              <span className="reading-time">全9章・約30分</span>
             </div>
           </div>
           <div className="hero-visual" aria-label="単語同士のつながりを表す図">
@@ -94,15 +95,83 @@ function App() {
           </div>
         </section>
 
+        <section className="lesson-section inside-section" id="inside">
+          <div className="section-heading">
+            <div>
+              <span className="chapter">CHAPTER 01 — モデルの中身</span>
+              <h2>入っているのは、<br /><em>数の表</em>です。</h2>
+            </div>
+            <p>
+              Transformerベースのモデルの正体は、役割の決まった数の表です。
+              学習で読んだ文章は、この表の数を調整するために使われ、文の形では残りません。
+              答えの文は、表を使ってその場で計算します。
+            </p>
+          </div>
+          <ol className="inside-grid">
+            <li>
+              <span>01</span>
+              <div>
+                <h3>語彙の名簿</h3>
+                <p>文字列と番号の対応です。単語、助詞、語の部品、区切りの印が並び、埋め込み表の行見出しになります。</p>
+                <small>CHAPTER 03</small>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <h3>トークンのベクトル</h3>
+                <p>番号ひとつにつき数百個の数です。似た文脈のトークンは、学習のあと座標が近くなります。</p>
+                <small>CHAPTER 02</small>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <h3>位置の情報</h3>
+                <p>文の何番目かを表します。ベクトルの表として持つ方式と、<InlineMath math="\sin" /> と <InlineMath math="\cos" /> から計算する方式があります。</p>
+                <small>CHAPTER 04</small>
+              </div>
+            </li>
+            <li>
+              <span>04</span>
+              <div>
+                <h3>注意の行列</h3>
+                <p>どのトークンをどれだけ見るかを計算する行列です。関係の強さは、文を読むときに内積で求めます。</p>
+                <small>CHAPTER 05</small>
+              </div>
+            </li>
+            <li>
+              <span>05</span>
+              <div>
+                <h3>変換の行列</h3>
+                <p>集めた情報を、位置ごとに別のベクトルへ変える行列です。注意の行列とあわせて、層の数だけ別々に入ります。各層には、数の大きさを整える小さなベクトルもあります。</p>
+                <small>CHAPTER 08</small>
+              </div>
+            </li>
+            <li>
+              <span>06</span>
+              <div>
+                <h3>次のトークンを出す表</h3>
+                <p>最後のベクトルから、名簿の各トークンが次に来る確率を計算します。トークンのベクトルの表と、同じ数を兼ねることもあります。</p>
+                <small>CHAPTER 09</small>
+              </div>
+            </li>
+          </ol>
+          <aside className="math-connection inside-note">
+            <span>ここから先</span>
+            <p>この6種類が、モデルファイルの中身です。ここから先で、それぞれの表が何を表しているかを開いていきます。</p>
+          </aside>
+        </section>
+
         <section className="lesson-section foundation" id="foundation">
           <div className="section-heading">
             <div>
-              <span className="chapter">CHAPTER 01 — 数学の準備 1</span>
+              <span className="chapter">CHAPTER 02 — 数学の準備 1</span>
               <h2>まず、言葉を<br /><em>ベクトル</em>にする。</h2>
             </div>
             <p>
               コンピューターは言葉をそのまま扱えません。そこで、単語を数字の並びに置き換えます。
-              数学Cで学ぶベクトルと同じです。
+              数学Cで学ぶベクトルと同じです。何次元にするか、数字をどう埋めるかは、下で決まります。
             </p>
           </div>
 
@@ -146,12 +215,181 @@ function App() {
               <div className="bridge-lines"><i /><i /><i /></div>
             </article>
           </div>
+
+          <div className="embedding-answers">
+            <article>
+              <span className="card-number">03 — DIMENSION</span>
+              <h3>次元は、学習の前に選ぶ</h3>
+              <p>
+                次元は、単語ひとつを書く数字の個数です。上の図は軸を2本にした見取り図で、平面に描けます。
+                モデルの中では軸が数百本あり、単語ひとつがたとえば 768 個の座標を持ちます。
+              </p>
+              <div className="dim-scale" aria-label="見取り図は2次元、モデルの例は768次元">
+                <div>
+                  <b>見取り図</b>
+                  <span>2</span>
+                  <small>軸は2本。平面に描ける</small>
+                </div>
+                <div className="chosen">
+                  <b>モデルの例</b>
+                  <span>768</span>
+                  <small>軸は768本。1単語が768個の数</small>
+                </div>
+              </div>
+              <div className="tradeoff"><b>少ない</b><span>違う意味の単語が、同じ場所に押しつぶされる</span></div>
+              <div className="tradeoff"><b>多い</b><span>調整する数字が増え、必要な文章も計算も増える</span></div>
+              <p>
+                768 は、あらかじめ用意した候補のひとつです。128 や 4096 も試せます。
+                単語を区別できて、用意できる文章と計算で学習しきれる大きさを残します。
+              </p>
+            </article>
+
+            <article>
+              <span className="card-number">04 — TABLE</span>
+              <h3>数字は、表を学習して埋める</h3>
+              <p>
+                単語を行、次元を列にした表を作ります。名前は埋め込み行列 <InlineMath math="E" /> です。
+                最初に入っている数はランダムです。単語をベクトルにするとは、その行を取り出すことです。
+              </p>
+              <div className="embed-table" aria-label="学習後の埋め込み表のイメージ。猫と犬は近く、車は離れている">
+                <div className="embed-row head"><span>単語</span><span>1</span><span>2</span><span>3</span><span>…</span></div>
+                <div className="embed-row near"><span>猫</span><span>0.80</span><span>0.91</span><span>0.18</span><span>…</span></div>
+                <div className="embed-row near"><span>犬</span><span>0.76</span><span>0.88</span><span>0.22</span><span>…</span></div>
+                <div className="embed-row far"><span>車</span><span>0.12</span><span>0.24</span><span>0.93</span><span>…</span></div>
+              </div>
+              <p className="table-caption">学習後のイメージ。猫と犬の行が近く、車の行は離れています。</p>
+              <p>
+                学習では、大量の文を読ませて次の単語を繰り返し予測します。ずれるたびに、
+                CHAPTER 09 の微分で、ずれが小さくなる方向へ表の数を動かします。
+                似た文脈に現れる単語は、行が近づきます。「猫」と「犬」はどちらも「撫でる」の近くに出るので座標が寄り、「車」は離れます。
+              </p>
+              <p>
+                図の「生き物らしさ」という軸の名前は、並びを見たあとに人間が付けたものです。
+              </p>
+              <div className="answer-math"><InlineMath math={String.raw`\vec{x}_{猫}=E(\mathrm{猫})`} /></div>
+            </article>
+          </div>
+          <aside className="math-connection">
+            <span>この段階</span>
+            <p>
+              この表を引いた直後は、同じ単語はどの文でも同じベクトルです。まわりの語を見て混ぜ合わせるのは、CHAPTER 05 の Attention からです。
+            </p>
+          </aside>
+        </section>
+
+        <section className="lesson-section vocab-section">
+          <div className="section-heading">
+            <div>
+              <span className="chapter">CHAPTER 03 — 語彙</span>
+              <h2>語は、名簿の<br /><em>部品</em>で組む。</h2>
+            </div>
+            <p>
+              埋め込み表の行は、世の中の語を1語ずつ並べたものではありません。
+              学習の前に作る名簿の1項目です。この名簿を語彙と呼びます。
+            </p>
+          </div>
+
+          <div className="vocab-grid">
+            <article>
+              <span className="card-number">01 — ROSTER</span>
+              <h3>語彙は、行の名簿</h3>
+              <p>
+                1行が1トークンです。単語のほかに、助詞、記号、語の続き、文の区切りの印も入ります。
+              </p>
+              <ul className="token-kinds">
+                <li><b>単語</b><span>猫、犬、車</span></li>
+                <li><b>助詞</b><span>は、を、た</span></li>
+                <li><b>続き</b><span>##する、##で</span></li>
+                <li><b>印</b><span>[CLS]、[UNK]</span></li>
+              </ul>
+              <p>
+                5万語彙は、読める語が5万個という意味ではありません。部品を置く枠が5万個です。
+                この数も次元と同じく、学習の前に人が決めます。3万や10万のモデルもあります。
+              </p>
+            </article>
+
+            <article>
+              <span className="card-number">02 — SIZE</span>
+              <h3>関係は、表にしない</h3>
+              <p>
+                学習するのは、トークンごとのベクトルです。語彙5万、次元768なら約3800万個の数で、
+                1個を4バイトにすると約150MBです。
+              </p>
+              <div className="size-pair" aria-label="ベクトルの表は約150MB。ペアを全部書くと25億個">
+                <div className="kept">
+                  <b>保存する表</b>
+                  <span>約150MB</span>
+                  <small>5万 × 768 個の数</small>
+                </div>
+                <div>
+                  <b>ペアを全部書くと</b>
+                  <span>25億個</span>
+                  <small>5万 × 5万。この表は作らない</small>
+                </div>
+              </div>
+              <p>
+                近さは、2本のベクトルの内積を必要なときに計算します。計算ルールは、どのトークンにも同じ行列で覚えます。
+                768×768 なら約60万個です。層の数だけ重ねるのでモデル全体は表より大きくなりますが、増え方は層の数 × 次元 × 次元です。
+              </p>
+            </article>
+
+            <article>
+              <span className="card-number">03 — METHOD</span>
+              <h3>作り方には、名前がある</h3>
+              <p>
+                文を名簿の番号へ切る処理がトークン化、そのプログラムがトークナイザです。
+                語より短い部品も1行にする方法を、サブワード分割と呼びます。
+              </p>
+              <div className="algo-list">
+                <div><b>BPE</b><span>文字から始め、よく隣り合う2つを合体する。GPT-2 など。</span></div>
+                <div><b>WordPiece</b><span>合体で名簿を育てる。訓練文をうまく表せる部品を選ぶ。BERT 系。</span></div>
+                <div><b>Unigram</b><span>大きな名簿から、なくてもよい部品を削る。SentencePiece。</span></div>
+              </div>
+              <p>
+                よく出る語は1行のまま残り、まれな語は部品の列になります。名簿にない語は登録済みの部品まで割り、
+                それでも割れなければ文字やバイトまで割るか、[UNK] にまとめます。
+              </p>
+            </article>
+          </div>
+
+          <div className="vocab-example">
+            <header>
+              <span className="card-number">OPEN MODEL</span>
+              <h3>公開されている名簿の実物</h3>
+              <p>
+                東北大学の{' '}
+                <a href="https://huggingface.co/tohoku-nlp/bert-base-japanese-v3" target="_blank" rel="noreferrer">
+                  tohoku-nlp/bert-base-japanese-v3
+                </a>
+                {' '}は、語彙 32,768 です。MeCab で語に切ったあと、WordPiece で名簿を作っています。番号は意味の近さではなく、名簿上の位置です。
+              </p>
+            </header>
+            <table className="vocab-table">
+              <thead>
+                <tr><th>番号</th><th>トークン</th><th>中身</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>0</td><td>[PAD]</td><td>長さをそろえる埋め草</td></tr>
+                <tr><td>1</td><td>[UNK]</td><td>部品にも割れなかったときの印</td></tr>
+                <tr><td>465</td><td>は</td><td>1文字のまま残ったもの</td></tr>
+                <tr><td>3767</td><td>猫</td><td>語がそのまま1行</td></tr>
+                <tr><td>3732</td><td>犬</td><td>語がそのまま1行</td></tr>
+                <tr><td>5910</td><td>車</td><td>語がそのまま1行</td></tr>
+                <tr><td>12556</td><td>##する</td><td>前の部品にくっつける続き</td></tr>
+                <tr><td>31615</td><td>トランスフォーマー</td><td>よく出たので、長い語も1行</td></tr>
+              </tbody>
+            </table>
+            <p className="vocab-note">
+              「撫でた」と「撫でる」は、この名簿に1行もありません。「撫」は 2585 番、「た」は 449 番です。
+              そのような語は、登録済みの部品まで割って読みます。
+            </p>
+          </div>
         </section>
 
         <section className="lesson-section position-section">
           <div className="two-column-title">
             <div>
-              <span className="chapter">CHAPTER 02 — 数学の準備 2</span>
+              <span className="chapter">CHAPTER 04 — 数学の準備 2</span>
               <h2>順番が変わると、<br />意味も変わる。</h2>
             </div>
             <div className="copy">
@@ -180,7 +418,7 @@ function App() {
 
         <section className="attention-section" id="attention">
           <div className="attention-intro">
-            <span className="chapter light">CHAPTER 03 — Transformerのしくみ</span>
+            <span className="chapter light">CHAPTER 05 — Transformerのしくみ</span>
             <h2>文脈を読むしくみ、<br /><em>Self-Attention</em></h2>
             <p>
               ある単語を理解するために、文中のどの単語を見るべきか。
@@ -193,7 +431,7 @@ function App() {
         <section className="lesson-section qkv-section">
           <div className="section-heading compact">
             <div>
-              <span className="chapter">CHAPTER 04 — Attentionの数式</span>
+              <span className="chapter">CHAPTER 06 — Attentionの数式</span>
               <h2>3つの役割に<br />分けて考える。</h2>
             </div>
             <p>同じ単語ベクトルを3種類の行列で変換し、「探す・見つけられる・渡す」の役割を持たせます。</p>
@@ -230,7 +468,7 @@ function App() {
 
         <section className="multihead-section">
           <div className="multihead-copy">
-            <span className="chapter light">CHAPTER 05 — 複数の視点</span>
+            <span className="chapter light">CHAPTER 07 — 複数の視点</span>
             <h2>ひとつの文を、<br /><em>複数の視点</em>で読む。</h2>
             <p>
               1組のAttentionだけでは、1種類の関係しか捉えにくい。
@@ -261,7 +499,7 @@ function App() {
         <section className="lesson-section architecture-section" id="architecture">
           <div className="section-heading">
             <div>
-              <span className="chapter">CHAPTER 06 — Transformerの全体像</span>
+              <span className="chapter">CHAPTER 08 — Transformerの全体像</span>
               <h2>部品を重ねて、<br />Transformerへ。</h2>
             </div>
             <p>Attentionの前後に処理を加え、このブロックを何層も重ねると、文脈を深く捉えられるようになります。各ブロックを押して役割を確認しましょう。</p>
@@ -271,7 +509,7 @@ function App() {
 
         <section className="training-section">
           <div>
-            <span className="chapter">CHAPTER 07 — 学習のしくみ</span>
+            <span className="chapter">CHAPTER 09 — 学習のしくみ</span>
             <h2>では、どうやって<br />賢くなるのか？</h2>
           </div>
           <div className="training-steps">
@@ -308,7 +546,9 @@ function App() {
           </div>
           <div className="glossary-list">
             {[
-              ['Embedding', '埋め込み', '言葉を意味のベクトルへ変換すること。'],
+              ['Embedding', '埋め込み', '単語ごとの行を並べた表から、そのベクトルを取り出すこと。次元は学習前に選び、中身は学習で決まる。'],
+              ['Vocabulary', '語彙', '埋め込み表の行の見出し一覧。語そのものと、語より短い部品が入る。'],
+              ['Tokenizer', 'トークナイザ', '文を語彙の番号へ切るプログラム。名簿の作り方には BPE や WordPiece がある。'],
               ['Attention', '注意機構', '単語どうしの関連度を計算し、情報を混ぜること。'],
               ['Softmax', 'ソフトマックス', '複数の数を、合計1の割合へ変換する関数。'],
               ['Parameter', 'パラメータ', '学習によって調整される行列やベクトルの値。'],
