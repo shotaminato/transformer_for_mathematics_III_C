@@ -185,7 +185,8 @@ h1, h2, h3, p { margin-top: 0; }
 .concept-grid { display: grid; grid-template-columns: 1fr 1fr .72fr; border: 1px solid var(--line); }
 .concept-card { min-height: 510px; padding: 32px; border-right: 1px solid var(--line); position: relative; overflow: hidden; }
 .concept-card:last-child { border-right: 0; }
-.card-number { font: 10px var(--mono); letter-spacing: .12em; color: #63747a; }
+.card-number { font: 500 14px var(--mono); letter-spacing: .1em; color: #4f6167; }
+.bridge-card .card-number { color: rgba(255, 255, 255, .72); }
 .concept-card h3 { font: 600 21px var(--serif); margin: 24px 0 12px; }
 .concept-card > p { font-size: 12px; line-height: 1.8; color: #69797e; max-width: 340px; }
 .coordinate-plane { height: 260px; margin-top: 40px; position: relative; border-left: 1px solid #8b989b; border-bottom: 1px solid #8b989b; }
